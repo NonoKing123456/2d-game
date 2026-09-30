@@ -26,10 +26,13 @@ public class PlayerControl : MonoBehaviour
     private bool isGrounded;
     private bool jumpPressed;
     private float horizontalInput;
+    public float HorizontalInput => horizontalInput;
     public bool slashing;
     private bool slashDamaging;
     private List<Collider2D> slashOverlaps = new();
     private readonly HashSet<EnemyHealth> hitThisSlash = new();
+    [SerializeField] private bool canAttack = true;
+    [SerializeField] private bool canMove = true;
 
     private void Awake()
     {
@@ -52,6 +55,7 @@ public class PlayerControl : MonoBehaviour
         {
             jumpPressed = true;
         }
+
         if (attackAction.WasPressedThisFrame())
         {
             StartSlashing();
@@ -60,26 +64,10 @@ public class PlayerControl : MonoBehaviour
         Slash();
     }
 
-    private void Slash()
-    {
-        if (!slashDamaging) return;
-        Physics2D.OverlapCollider(attackHitbox, slashOverlaps);
-        foreach (Collider2D other  in slashOverlaps)
-        {
-            EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
-            if (enemy != null && hitThisSlash.Add(enemy))
-            {
-                enemy.TakeDamage(1);
-            }
-        }
-    }
 
     private void FixedUpdate()
     {
-        if (!slashing)
-        {
-            Move();
-        }
+        Move();
     }
 
     /// <summary>
@@ -88,6 +76,8 @@ public class PlayerControl : MonoBehaviour
     /// </summary>
     private void Move()
     {
+        if (!canMove) return;
+
         // 检测角色是否接触地面
         // 使用OverlapCircle方法检测角色底部是否在指定图层上
         isGrounded = Physics2D.OverlapCircle(
@@ -108,14 +98,27 @@ public class PlayerControl : MonoBehaviour
         // 重置跳跃状态，防止连续跳跃
         jumpPressed = false;
     }
-
-    public bool GetGrounded()
+        private void Slash()
     {
-        return isGrounded;
+        if (!slashDamaging) return;
+        Physics2D.OverlapCollider(attackHitbox, slashOverlaps);
+        foreach (Collider2D other  in slashOverlaps)
+        {
+            EnemyHealth enemy = other.GetComponentInParent<EnemyHealth>();
+            if (enemy != null && hitThisSlash.Add(enemy))
+            {
+                enemy.TakeDamage(1);
+            }
+        }
     }
+
+
+
     private void StartSlashing()
     {
-        if (!isGrounded || slashing) return;
+        if (!isGrounded || slashing || !canMove || !canAttack) return;
+        Debug.Log("start slashing");
+        SetCanMove(false);
         hitThisSlash.Clear();
         animator.SetTrigger("Slash");
         slashing = true;
@@ -123,17 +126,36 @@ public class PlayerControl : MonoBehaviour
     }
     public void EndSlashing()
     {
+        if (!slashing) return;
         Debug.Log("end slashing");
         slashing = false;
         slashOverlaps.Clear();
         slashDamaging = false;
+        SetCanMove(true);
+    }
+    public void CancelSlashing()
+    {
+        if (!slashing) return;
+        animator.ResetTrigger("Slash");
+        slashing = false;
+        slashDamaging = false;
+        slashOverlaps.Clear();
+        hitThisSlash.Clear();
     }
     public void EnableSlashHitbox()
     {
-        slashDamaging = true;
+        if (slashing) slashDamaging = true;
     }
     public void DisableSlashHitbox()
     {
         slashDamaging = false;
+    }
+    public void SetCanMove(bool canMove)
+    {
+        this.canMove = canMove;
+    }
+        public bool GetGrounded()
+    {
+        return isGrounded;
     }
 }

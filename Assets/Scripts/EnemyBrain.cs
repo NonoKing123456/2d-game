@@ -6,17 +6,14 @@ public class EnemyBrain : MonoBehaviour
     {
         Patrol,
         Chase,
-        Attack,
         Dead,
         Hurt
     }
 
     [Header("References")]
     [SerializeField] private Transform player;
-    [SerializeField] private Animator animator;
     [SerializeField] private EnemyPatrol enemyPatrol;
     [SerializeField] private EnemyChase enemyChase;
-    [SerializeField] private Collider2D enemyCollider;
 
     [Header("Attack")]
     [SerializeField] private float detectRange = 6f;
@@ -26,74 +23,49 @@ public class EnemyBrain : MonoBehaviour
 
     [Header("State")]
     [SerializeField] private EnemyState currentState = EnemyState.Patrol;
-    [SerializeField] private float hurtDuration = 0.2f;
 
-    private int currentHealth;
-
-    private float attackTimer;
-    private float hurtUntil;
-    private Rigidbody2D rb;
-    private static PhysicsMaterial2D noFrictionMaterial;
+    public EnemyState CurrentState => currentState;
 
 
     void Awake()
     {
-        animator = GetComponent<Animator>();
-        enemyCollider = GetComponent<Collider2D>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         enemyPatrol = GetComponent<EnemyPatrol>();
         enemyChase = GetComponent<EnemyChase>();
-        rb = GetComponent<Rigidbody2D>();
-
-        if (enemyCollider.sharedMaterial == null)
-        {
-            if (noFrictionMaterial == null)
-            {
-                noFrictionMaterial = new PhysicsMaterial2D("Enemy body without friction")
-                {
-                    friction = 0f,
-                    bounciness = 0f
-                };
-            }
-
-            enemyCollider.sharedMaterial = noFrictionMaterial;
-        }
-
         ApplyMovementState();
+    }
+
+    public void SetPlayer(Transform playerTarget)
+    {
+        player = playerTarget;
+        enemyChase.SetPlayer(playerTarget);
     }
 
     void Update()
     {
-        if (currentState == EnemyState.Dead || currentState == EnemyState.Attack)
-        {
-            return;
-        }
-
-        if (currentState == EnemyState.Hurt)
-        {
-            if (Time.time >= hurtUntil)
-            {
-                SetState(EnemyState.Chase);
-            }
-
-            return;
-        }
-
-        if (currentState == EnemyState.Patrol &&
+        if (player != null && currentState == EnemyState.Patrol &&
             Vector2.Distance(transform.position, player.position) < detectRange)
         {
             SetState(EnemyState.Chase);
         }
     }
 
-    public void EnterHurt(float knockbackForce)
+    public void EnterHurt()
     {
         if (currentState == EnemyState.Dead) return;
-
-        hurtUntil = Time.time + hurtDuration;
         SetState(EnemyState.Hurt);
-        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-        rb.AddForce(new Vector2(-Mathf.Sign(transform.localScale.x) * knockbackForce, 0f), ForceMode2D.Impulse);
+    }
+
+    public void RecoverFromHurt()
+    {
+        if (currentState == EnemyState.Hurt)
+        {
+            SetState(EnemyState.Chase);
+        }
+    }
+
+    public void EnterDead()
+    {
+        SetState(EnemyState.Dead);
     }
 
     private void SetState(EnemyState nextState)
@@ -102,6 +74,11 @@ public class EnemyBrain : MonoBehaviour
 
         currentState = nextState;
         ApplyMovementState();
+        if (currentState == EnemyState.Dead)
+        {
+            enemyPatrol.enabled = false;
+            enemyChase.enabled = false;
+        }
     }
 
     private void ApplyMovementState()
