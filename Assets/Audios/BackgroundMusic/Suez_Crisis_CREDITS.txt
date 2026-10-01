@@ -1,0 +1,9 @@
+Suez Crisis
+Creator: Julie Damsgaard / Spring Spring
+Source page: https://opengameart.org/content/suez-crisis
+Source file: https://opengameart.org/sites/default/files/Suez%20Crisis_0.ogg
+License: CC0 1.0 (https://creativecommons.org/publicdomain/zero/1.0/)
+
+Downloaded 2026-10-01. The game copy, Suez_Crisis_Light.ogg, was
+transcoded from the original OGG to a lower-bitrate OGG Vorbis file
+for a smaller download. Duration: 86.25 seconds; 44.1 kHz stereo.

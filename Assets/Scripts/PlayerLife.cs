@@ -4,6 +4,7 @@ public class PlayerLife : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PlayerControl playerControl;
+    [SerializeField] private PlayerAudio playerAudio;
     [SerializeField] private int maxHealth = 5;
     [SerializeField] private int currentHealth;
     [SerializeField] private float invincibleTime = 1f;
@@ -26,6 +27,7 @@ public class PlayerLife : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         playerControl = GetComponent<PlayerControl>();
+        playerAudio = GetComponent<PlayerAudio>();
         normalLayer = gameObject.layer;
         invincibleLayer = LayerMask.NameToLayer("InvinciblePlayer");
         int enemyLayer = LayerMask.NameToLayer("Enemy");
@@ -84,14 +86,14 @@ public class PlayerLife : MonoBehaviour
         {
             return;
         }
-
         currentHealth = Mathf.Max(0, currentHealth - 1);
+        playerAudio.PlayHurt();
         if (currentHealth == 0)
         {
+            playerAudio.PlayDie();
             Die();
             return;
         }
-
         invincible = true;
         invincibleUntil = Time.time + invincibleTime;
         if (invincibleLayer >= 0) gameObject.layer = invincibleLayer;
@@ -121,7 +123,7 @@ public class PlayerLife : MonoBehaviour
         playerControl.enabled = false;
         rb.linearVelocity = Vector2.zero;
         if (invincibleLayer >= 0) gameObject.layer = invincibleLayer;
-        GameManager.Instance.GameOver();
+        GameManager.Instance.Invoke(nameof(GameManager.GameOver), 1f);
     }
 
 }

@@ -3,12 +3,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public enum GameState
+    {
+        Playing,
+        Paused,
+        GameOver
+    }
+    [SerializeField] private GameState currentState = GameState.Playing;
     public static GameManager Instance { get; private set; }
     [SerializeField] private GameObject player;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private List<GameObject> enemies;
     [SerializeField] private List<Vector3> enemySpawnPoints;
     [SerializeField] private GameObject DeathPanel;
+    public GameState CurrentState => currentState;
+    public PlayerControl CurrentPlayer { get; private set; }
     private void Awake()
     {
         DeathPanel = GameObject.Find("DeathPanel");
@@ -18,13 +27,18 @@ public class GameManager : MonoBehaviour
 
     public void ReloadScene1()
     {
+        Debug.Log("Reloading Scene 1");
+        CancelInvoke(nameof(GameOver));
+        CurrentPlayer = null;
         ClearExistingEnemiesAndPlayer();
         GameObject spawnedPlayer = SpawnPlayer();
         if (spawnedPlayer == null) return;
 
+        CurrentPlayer = spawnedPlayer.GetComponent<PlayerControl>();
         BindSceneToPlayer(spawnedPlayer);
         SpawnEnemies(spawnedPlayer.transform);
         DeathPanel.SetActive(false);
+        SetGameState(GameState.Playing);
     }
 
     private void ClearExistingEnemiesAndPlayer()
@@ -136,9 +150,14 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
+        SetGameState(GameState.GameOver);
         if (DeathPanel != null)
         {
             DeathPanel.SetActive(true);
         }
+    }
+    private void SetGameState(GameState newState)
+    {
+        currentState = newState;
     }
 }

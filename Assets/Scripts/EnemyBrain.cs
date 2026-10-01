@@ -17,9 +17,7 @@ public class EnemyBrain : MonoBehaviour
 
     [Header("Attack")]
     [SerializeField] private float detectRange = 6f;
-    [SerializeField] private float attackRange = 1.2f;
-    [SerializeField] private float attackCooldown = 1f;
-    [SerializeField] private int attackDamage = 1;
+    [SerializeField] private bool onlyDetectFront = true;
 
     [Header("State")]
     [SerializeField] private EnemyState currentState = EnemyState.Patrol;
@@ -42,11 +40,13 @@ public class EnemyBrain : MonoBehaviour
 
     void Update()
     {
-        if (player != null && currentState == EnemyState.Patrol &&
-            Vector2.Distance(transform.position, player.position) < detectRange)
-        {
+        if (player == null || currentState != EnemyState.Patrol) return;
+
+        bool playerInRange = Vector2.Distance(transform.position, player.position) < detectRange;
+        bool playerInFront = (player.position.x - transform.position.x) * transform.lossyScale.x > 0f;
+
+        if (playerInRange && (!onlyDetectFront || playerInFront))
             SetState(EnemyState.Chase);
-        }
     }
 
     public void EnterHurt()

@@ -16,8 +16,8 @@ TagManager:
   - Ground
   - Enemy
   - InvinciblePlayer
-  - 
-  - 
+  - DeadEnemy
+  - Interactables
   - 
   - 
   - 
@@ -47,6 +47,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 1697946121
+    locked: 0
+  - name: Interactable
+    uniqueID: 3492198983
     locked: 0
   - name: Enemies
     uniqueID: 871461951

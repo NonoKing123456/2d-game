@@ -8,6 +8,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private bool invincible = false;
     [SerializeField] private float hurtDuration = 0.2f;
     [SerializeField] private float knockbackForce = 5f;
+    [SerializeField] private EnemyAudio enemyAudio;
 
     private EnemyBrain brain;
     private Rigidbody2D rb;
@@ -19,6 +20,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void Awake()
     {
+        enemyAudio = GetComponent<EnemyAudio>();
         brain = GetComponent<EnemyBrain>();
         rb = GetComponent<Rigidbody2D>();
         bodyCollider = GetComponent<Collider2D>();
@@ -61,13 +63,16 @@ public class EnemyHealth : MonoBehaviour
         }
         currentHealth -= damage;
         Debug.Log("Enemy Health: " + currentHealth);
+        enemyAudio.PlaySlashed();
         
         if (currentHealth <= 0)
         {
+            enemyAudio.PlayDie();
             Die();
+            gameObject.layer = LayerMask.NameToLayer("DeadEnemy");
             return;
         }
-
+        enemyAudio.PlayHurt();
         invincible = true;
         invincibleUntil = Time.time + invincibleTime;
         hurting = true;
