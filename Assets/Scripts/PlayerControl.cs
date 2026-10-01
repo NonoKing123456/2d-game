@@ -45,6 +45,20 @@ public class PlayerControl : MonoBehaviour
         playerAudio = GetComponent<PlayerAudio>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        CapsuleCollider2D bodyCollider = GetComponent<CapsuleCollider2D>();
+        if (bodyCollider != null && bodyCollider.sharedMaterial == null)
+        {
+            if (noFrictionMaterial == null)
+            {
+                noFrictionMaterial = new PhysicsMaterial2D("Player body without friction")
+                {
+                    friction = 0f,
+                    bounciness = 0f
+                };
+            }
+
+            bodyCollider.sharedMaterial = noFrictionMaterial;
+        }
         groundLayer = LayerMask.GetMask("Ground");
         groundCheck = transform.Find("GroundCheck");
         attackHitbox = transform.Find("AttackHitbox").GetComponent<Collider2D>();
