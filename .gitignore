@@ -11,6 +11,9 @@
 /Recordings/
 /Assets/_Recovery/
 /Assets/_Recovery.meta
+/Assets/Resources/PerformanceTestRunInfo.json*
+/Assets/Resources/PerformanceTestRunSettings.json*
+/Assets/Resources.meta
 
 # IDE and generated project files
 /.vs/

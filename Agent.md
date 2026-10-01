@@ -3,7 +3,7 @@
 ## 项目概况
 
 - 这是一个 Unity 6（`6000.6.3f1`）2D 游戏项目，使用 URP 2D、Input System 和 Tilemap。
-- 主场景是 `Assets/Scenes/SampleScene.unity`。
+- 场景位于 `Assets/Scenes/`；`MainMenu.unity` 是菜单入口，`Level1.unity` 是游戏关卡。
 - 游戏逻辑集中在 `Assets/Scripts/`：`PlayerControl` 处理移动、跳跃和攻击，`PlayerAnimation` 负责动画参数，`PlayerLife` 负责生命值；`EnemyBrain`、`EnemyPatrol`、`EnemyChase`、`EnemyHealth` 负责敌人行为；`CameraFollow2D` 和 `ImgBackground` 负责镜头与背景。
 - 输入资源位于 `Assets/Settings/InputSystem_Actions.inputactions`；渲染设置位于 `Assets/Settings/`。
 
@@ -18,5 +18,5 @@
 ## 验证
 
 - 用项目指定的 Unity 版本打开项目，确认脚本编译通过且 Console 没有新增错误。
-- 涉及玩法时，在 `SampleScene` 中实际检查移动、跳跃、攻击、敌人巡逻与追逐，以及镜头表现。
+- 涉及玩法时，从 `MainMenu` 进入 `Level1`，实际检查移动、跳跃、攻击、敌人巡逻与追逐，以及镜头表现。
 - 如果当前环境无法启动 Unity，在交付说明中明确写出未验证的部分，不把纯文本检查当成运行验证。

@@ -12,9 +12,8 @@ public class AudioManager : MonoBehaviour
     }
     private void Update()
     {
-        if (gameState != GameManager.Instance.CurrentState)
-        {
-            ChangeState();
+        if (gameState != GameManager.instance.CurrentState){
+            UpdateState();
         }
     }
     
@@ -26,18 +25,28 @@ public class AudioManager : MonoBehaviour
             sfxSource.PlayOneShot(failClip);
         }
     }
-    private void ChangeState()
+    private void UpdateState()
     {
-        gameState = GameManager.Instance.CurrentState;
+        if (gameState == GameManager.GameState.Paused)
+        {
+            AudioListener.pause = false;
+        }
+        gameState = GameManager.instance.CurrentState;
         if (gameState == GameManager.GameState.Playing)
         {
-            backgroundMusicSource.Play();
-            ambientSoundSource.Play();
+            if (!backgroundMusicSource.isPlaying){
+                backgroundMusicSource.Play();
+            }
         }
         else if (gameState == GameManager.GameState.GameOver)
         {
             backgroundMusicSource.Stop();
             PlayDeathSound();
+        }
+        else if (gameState == GameManager.GameState.Paused)
+        {
+            AudioListener.pause = true;
+            ambientSoundSource.ignoreListenerPause = true;
         }
     }
 }

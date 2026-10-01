@@ -123,7 +123,7 @@ public class PlayerLife : MonoBehaviour
         playerControl.enabled = false;
         rb.linearVelocity = Vector2.zero;
         if (invincibleLayer >= 0) gameObject.layer = invincibleLayer;
-        GameManager.Instance.Invoke(nameof(GameManager.GameOver), 1f);
+        GameManager.instance.Invoke(nameof(GameManager.GameOver), 1f);
     }
 
 }

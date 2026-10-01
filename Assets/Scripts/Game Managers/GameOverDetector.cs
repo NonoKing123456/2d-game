@@ -11,7 +11,7 @@ public class GameOverDetector : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        GameManager gameManager = GameManager.Instance;
+        GameManager gameManager = GameManager.instance;
         if (gameManager == null || gameManager.CurrentState != GameManager.GameState.Playing) return;
 
         PlayerControl activePlayer = gameManager.CurrentPlayer;

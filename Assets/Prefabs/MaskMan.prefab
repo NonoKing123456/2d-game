@@ -215,7 +215,7 @@ MonoBehaviour:
   player: {fileID: 0}
   enemyPatrol: {fileID: 0}
   enemyChase: {fileID: 0}
-  detectRange: 6.95
+  detectRange: 4.68
   onlyDetectFront: 1
   currentState: 0
 --- !u!114 &3849141814004669379
@@ -315,7 +315,7 @@ AudioSource:
   m_GameObject: {fileID: 2693296209223278300}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4164289187311252634, guid: c7d27a881fc456a4f89913ee8e79b14a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1

@@ -19,7 +19,6 @@ public class PlayerControl : MonoBehaviour
 
 
     private Rigidbody2D rb;
-    private static PhysicsMaterial2D noFrictionMaterial;
     private Animator animator;
     public Transform groundCheck;
     private InputAction moveAction;

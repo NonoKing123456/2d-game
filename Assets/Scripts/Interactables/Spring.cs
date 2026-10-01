@@ -20,7 +20,7 @@ public class Spring : MonoBehaviour
 
     void FixedUpdate()
     {
-        PlayerControl currentPlayer = GameManager.Instance != null ? GameManager.Instance.CurrentPlayer : null;
+        PlayerControl currentPlayer = GameManager.instance != null ? GameManager.instance.CurrentPlayer : null;
         if (currentPlayer != playerControl)
         {
             playerControl = currentPlayer;

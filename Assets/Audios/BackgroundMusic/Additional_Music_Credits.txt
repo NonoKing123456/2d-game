@@ -1,5 +1,5 @@
 Background music candidates downloaded 2026-10-01
-All four source pages list the music under CC0 1.0:
+All eight source pages list the music under CC0 1.0:
 https://creativecommons.org/publicdomain/zero/1.0/
 
 Honey_Bear_Loop.ogg
@@ -29,3 +29,31 @@ Creator: brandon75689 / Brandon Morris (submitted by HaelDB)
 Source page: https://lpc.opengameart.org/content/egyptian-meditation-music
 Source file: https://lpc.opengameart.org/sites/default/files/v312.ogg
 Game copy: re-encoded to smaller OGG Vorbis, 44.1 kHz stereo.
+
+Wacky_Idlings_Menu.ogg
+Title: Wacky Idlings
+Creator: Fupi
+Source page: https://opengameart.org/content/wacky-idlings
+Source file: https://opengameart.org/sites/default/files/wackyidlings_0.ogg
+Game copy: original OGG, 48 kHz stereo.
+
+Curious_Theme_8bit.ogg
+Title: 8-Bit Curious Theme
+Creator: emanresU
+Source page: https://opengameart.org/content/8-bit-curious-theme
+Source file: https://opengameart.org/sites/default/files/curious_theme.ogg
+Game copy: original OGG, 44.1 kHz mono.
+
+Mysterious_Cave_Loop.ogg
+Title: Mysterious Cave Theme Loop
+Creator: beardalaxy
+Source page: https://opengameart.org/content/mysterious-cave-theme-loop
+Source file: https://opengameart.org/sites/default/files/cave_in_game.ogg
+Game copy: original OGG, 44.1 kHz stereo.
+
+Snowfall_Piano_Loop.ogg
+Title: Snowfall (Looped ver.)
+Creator: Kistol
+Source page: https://opengameart.org/content/snowfall
+Source file: https://opengameart.org/sites/default/files/Snowfall%20%28Looped%20ver.%29_0.ogg
+Game copy: original OGG, 44.1 kHz stereo.
