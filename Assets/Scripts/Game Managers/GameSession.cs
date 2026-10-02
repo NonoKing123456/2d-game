@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections.Generic;
+using Unity.Collections;
 public class GameSession : MonoBehaviour
 {
     [Header("Audio Settings")]
@@ -109,5 +111,29 @@ public class GameSession : MonoBehaviour
         {
             audioMixer.SetFloat("SfxVolume", -80);
         }
+    }
+    public bool GetIsMasterEnabled()
+    {
+        return isMasterEnabled;
+    }
+    public bool GetIsMusicEnabled()
+    {
+        return isMusicEnabled;
+    }
+    public bool GetIsSfxEnabled()
+    {
+        return isSfxEnabled;
+    }
+    public float GetMasterVolume()
+    {
+        return masterVolume;
+    }
+    public float GetMusicVolume()
+    {
+        return musicVolume;
+    }
+    public float GetSfxVolume()
+    {
+        return sfxVolume;
     }
 }

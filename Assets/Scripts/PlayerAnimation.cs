@@ -29,6 +29,7 @@ public class PlayerAnimation : MonoBehaviour
             if (!deathTriggered)
             {
                 deathTriggered = true;
+                animator.SetBool("Dead", true);
                 animator.SetBool("Hurting", false);
                 animator.ResetTrigger("Slash");
                 animator.SetTrigger("Die");

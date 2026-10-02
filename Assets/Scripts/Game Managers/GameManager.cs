@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,17 +20,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private List<GameObject> enemies;
     [SerializeField] private List<Vector3> enemySpawnPoints;
-    [SerializeField] private GameObject DeathPanel;
+    [SerializeField] private GameObject deathPanel;
     [SerializeField] private GameObject OptionsPanel;
     public GameState CurrentState => currentState;
     public PlayerControl CurrentPlayer { get; private set; }
     private void Awake()
     {
-        OptionsPanel = GameObject.Find("Options Panel");
+        //OptionsPanel = GameObject.Find("Options Panel");
         // Only the spawned player should pair devices and own the Player action map.
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         PlayerInput managerInput = GetComponent<PlayerInput>();
         if (managerInput != null) managerInput.enabled = false;
-        DeathPanel = GameObject.Find("DeathPanel");
         if (!ManageInstance()) return;
         ReloadScene1();
     }
@@ -50,7 +59,8 @@ public class GameManager : MonoBehaviour
         escInput = playerInput.actions.FindAction("Esc", true);
         BindSceneToPlayer(spawnedPlayer);
         SpawnEnemies(spawnedPlayer.transform);
-        DeathPanel.SetActive(false);
+        deathPanel.SetActive(false);
+        AudioManager.Instance.ReplayMusic();
         SetGameState(GameState.Playing);
     }
 
@@ -178,9 +188,9 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         SetGameState(GameState.GameOver);
-        if (DeathPanel != null)
+        if (deathPanel != null)
         {
-            DeathPanel.SetActive(true);
+            deathPanel.SetActive(true);
         }
     }
     private void SetGameState(GameState newState)
@@ -196,5 +206,16 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1;
             OptionsPanel.SetActive(false);
         }
+    }
+
+    internal void BackToMainMenu()
+    {
+        AudioManager.Instance.Unpause();
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    internal void RestartGame()
+    {
+        ReloadScene1();
     }
 }

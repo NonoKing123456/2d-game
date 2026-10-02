@@ -15,6 +15,7 @@ public class MainMenuManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        optionsMenu.SetActive(false);
     }
     void Update()
     {
